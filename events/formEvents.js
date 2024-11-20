@@ -73,7 +73,7 @@ const formEvents = () => {
       const payload = {
         email: document.querySelector('#email').value,
         first_name: document.querySelector('#first_name').value,
-        favorite: null,
+        favorite: document.querySelector('#favorite').checked,
         last_name: document.querySelector('#last_name').value,
         uid: '',
         firebaseKey,

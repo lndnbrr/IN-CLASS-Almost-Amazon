@@ -86,6 +86,27 @@ body {
 #view {
   width: 90%;
   margin: auto;
+  text-align: center;
+
+  #viewInfoAuthorInfo{
+    color: white;
+    text-align: start;
+  }
+
+  .card {
+    width: 300px;
+    margin: 5px;
+
+    .sale-badge {
+      font-size: 1em;
+      background-color: blue;
+    }
+  }
+
+  #viewAuthorDividing {
+    text-align: start;
+    color: white;
+  }
 
   .details {
     min-width: 50%;
@@ -95,4 +116,8 @@ body {
   .description {
     white-space: pre-wrap;
   }
+}
+
+#booksOnViewAuthors{
+  margin: 0rem 0.3rem 0rem 0.3rem;
 }
