@@ -3,8 +3,8 @@ import client from '../utils/client';
 const endpoint = client.databaseURL;
 
 // API CALL TO GET ALL AUTHORS 03L
-const getAuthors = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/authors.json`, {
+const getAuthors = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -20,16 +20,19 @@ const getAuthors = () => new Promise((resolve, reject) => {
     }).catch(reject);
 });
 
-// API CALL TO FILTER FAVORITE AUTHORS 03L
-const favoriteAuthor = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/authors.json?orderBy="favorite"&equalTo=true`, {
+// API CALL TO FILTER(GET) FAVORITE AUTHORS 03L
+const favoriteAuthor = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   })
     .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
+    .then((data) => {
+      const favAuthor = Object.values(data).filter((item) => item.favorite);
+      resolve(favAuthor);
+    })
     .catch(reject);
 });
 

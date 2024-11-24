@@ -3,7 +3,7 @@ import renderToDOM from '../utils/renderToDom';
 
 const viewAuthor = (obj) => {
   clearDom();
-  console.warn(obj);
+  console.warn(obj.first_name, obj.last_name);
   let domString = '';
   domString += `
   <div class="mt-3 d-flex flex-wrap">

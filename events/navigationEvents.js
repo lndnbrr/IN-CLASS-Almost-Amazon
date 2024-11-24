@@ -1,11 +1,11 @@
 import { signOut } from '../utils/auth';
-import { getBooks, booksOnSale } from '../api/bookData';
-import { showBooks } from '../pages/books';
+import { getBooks, booksOnSale, searchBook } from '../api/bookData';
+import { showBooks, emptyBooks } from '../pages/books';
 import { favoriteAuthor, getAuthors } from '../api/authorData';
 import { showAuthors } from '../pages/authors';
 
 // navigation events
-const navigationEvents = () => {
+const navigationEvents = (user) => {
   // LOGOUT BUTTON
   document.querySelector('#logout-button')
     .addEventListener('click', signOut);
@@ -13,20 +13,20 @@ const navigationEvents = () => {
   // BOOKS ON SALE 03
   document.querySelector('#sale-books').addEventListener('click', () => {
     console.warn('CLICKED SALE BOOKS');
-    booksOnSale().then(showBooks);
+    booksOnSale(user.uid).then(showBooks);
   });
 
   // ALL BOOKS 03
   document.querySelector('#all-books').addEventListener('click', () => {
     console.warn('CLICKED ALL BOOKS');
-    getBooks().then(showBooks);
+    getBooks(user.uid).then(showBooks);
   });
 
   // ALL AUTHORS 03L
   // DONE When a user clicks the authors link, make a call to firebase to get all authors DONE
   document.querySelector('#authors').addEventListener('click', () => {
     console.warn('CLICKED AUTHORS');
-    getAuthors().then(showAuthors);
+    getAuthors(user.uid).then(showAuthors);
     // 2. Convert the response to an array because that is what the makeAuthors function is expecting??
     // 3. If the array is empty because there are no authors, make sure to use the emptyAuthor function
   });
@@ -34,7 +34,7 @@ const navigationEvents = () => {
   // FAVORITE AUTHORS 03L
   document.querySelector('#fav-authors').addEventListener('click', () => {
     console.warn('CLICKED FAV AUTHORS');
-    favoriteAuthor().then(showAuthors);
+    favoriteAuthor(user.uid).then(showAuthors);
   });
 
   // STRETCH: SEARCH
@@ -42,11 +42,14 @@ const navigationEvents = () => {
     const searchValue = document.querySelector('#search').value.toLowerCase();
     console.warn(searchValue);
 
-    // WHEN THE USER PRESSES ENTER, MAKE THE API CALL AND CLEAR THE INPUT
     if (e.keyCode === 13) {
-      // MAKE A CALL TO THE API TO FILTER ON THE BOOKS
-      // IF THE SEARCH DOESN'T RETURN ANYTHING, SHOW THE EMPTY STORE
-      // OTHERWISE SHOW THE STORE
+      searchBook(user.uid, searchValue).then((result) => {
+        if (result.length > 0) {
+          showBooks(result);
+        } else {
+          emptyBooks();
+        }
+      });
 
       document.querySelector('#search').value = '';
     }

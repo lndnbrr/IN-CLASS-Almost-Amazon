@@ -3,7 +3,7 @@ import renderToDOM from '../utils/renderToDom';
 
 const viewBook = (obj) => {
   clearDom();
-  console.warn(obj);
+  console.warn(obj.title);
 
   const domString = `
   <div class="mt-5 d-flex flex-wrap">
